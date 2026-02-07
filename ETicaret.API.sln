@@ -1,0 +1,59 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36301.6
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ETicaretAPI.Domain", "Core\ETicaretAPI.Domain\ETicaretAPI.Domain.csproj", "{FE06C510-F7B0-46B2-9A6A-078F7138C022}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Insfrastructure", "Insfrastructure", "{11414DF1-7AF8-45B7-8865-8025AA9B0894}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ETicaretAPI.Infrastructure", "Infrastructure\ETicaretAPI.Infrastructure\ETicaretAPI.Infrastructure.csproj", "{8D704F3A-C627-433F-900F-4D7DE54AF78A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ETicaretAPI.Persistence", "Infrastructure\ETicaretAPI.Persistence\ETicaretAPI.Persistence.csproj", "{DE1493F2-6375-43D5-A7ED-F7807898F3C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ETicaretAPI.Application", "Core\ETicaretAPI.Application\ETicaretAPI.Application.csproj", "{B67A9E25-25AF-43BB-9EE0-EB3881F008EF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ETicaret.WEBAPI", "ETicaret.WEBAPI\ETicaret.WEBAPI.csproj", "{F5489790-856D-48D1-81B7-070016DBFFC5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FE06C510-F7B0-46B2-9A6A-078F7138C022}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE06C510-F7B0-46B2-9A6A-078F7138C022}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE06C510-F7B0-46B2-9A6A-078F7138C022}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE06C510-F7B0-46B2-9A6A-078F7138C022}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D704F3A-C627-433F-900F-4D7DE54AF78A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D704F3A-C627-433F-900F-4D7DE54AF78A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D704F3A-C627-433F-900F-4D7DE54AF78A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D704F3A-C627-433F-900F-4D7DE54AF78A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE1493F2-6375-43D5-A7ED-F7807898F3C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE1493F2-6375-43D5-A7ED-F7807898F3C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE1493F2-6375-43D5-A7ED-F7807898F3C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE1493F2-6375-43D5-A7ED-F7807898F3C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B67A9E25-25AF-43BB-9EE0-EB3881F008EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B67A9E25-25AF-43BB-9EE0-EB3881F008EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B67A9E25-25AF-43BB-9EE0-EB3881F008EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B67A9E25-25AF-43BB-9EE0-EB3881F008EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5489790-856D-48D1-81B7-070016DBFFC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5489790-856D-48D1-81B7-070016DBFFC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5489790-856D-48D1-81B7-070016DBFFC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5489790-856D-48D1-81B7-070016DBFFC5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FE06C510-F7B0-46B2-9A6A-078F7138C022} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{8D704F3A-C627-433F-900F-4D7DE54AF78A} = {11414DF1-7AF8-45B7-8865-8025AA9B0894}
+		{DE1493F2-6375-43D5-A7ED-F7807898F3C6} = {11414DF1-7AF8-45B7-8865-8025AA9B0894}
+		{B67A9E25-25AF-43BB-9EE0-EB3881F008EF} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {57FDE5C9-EFD9-4D01-B3BD-D8E12EB5068B}
+	EndGlobalSection
+EndGlobal
