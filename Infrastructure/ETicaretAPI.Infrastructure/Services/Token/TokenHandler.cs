@@ -1,5 +1,6 @@
 ﻿using ETicaretAPI.Application.Abstractions.Token;
 using ETicaretAPI.Application.Dtos.Token;
+using ETicaretAPI.Domain.Entities.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -20,13 +21,13 @@ namespace ETicaretAPI.Infrastructure.Services.Token
             _configuration = configuration;
         }
 
-        public TokenDto CreateAccessToken()
+        public TokenDto CreateAccessToken(int second, AppUser appUser)
         {
             TokenDto token = new TokenDto();
 
             SymmetricSecurityKey securityKey = new(Encoding.UTF8.GetBytes(_configuration["Token:SecurityKey"]));
             SigningCredentials signingCredentials = new(securityKey,SecurityAlgorithms.HmacSha256);
-            token.Expiration = DateTime.UtcNow.AddSeconds(300);
+            token.Expiration = DateTime.UtcNow.AddSeconds(second);
             JwtSecurityToken securityToken = new(
                 audience: _configuration["Token:Audience"],
                 issuer: _configuration["Token:Issuer"],

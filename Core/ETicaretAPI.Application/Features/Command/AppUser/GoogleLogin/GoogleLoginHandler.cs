@@ -59,7 +59,7 @@ namespace ETicaretAPI.Application.Features.Command.AppUser.GoogleLogin
                 throw new Exception("sistemsel hata");
             }
 
-            var token = _tokenHandler.CreateAccessToken();
+            var token = _tokenHandler.CreateAccessToken(5 , user);
 
             return new GoogleLoginResponse()
             {

@@ -25,19 +25,6 @@ namespace ETicaret.WEBAPI.Controllers
             return Ok(response);
         }
 
-        [HttpPost("{action}")]
-        public async Task<IActionResult> Login(LoginUserRequest loginUserRequest)
-        {
-           LoginUserResponse response =  await _mediator.Send(loginUserRequest);
-            return Ok(response);
-        }
-
-        [HttpPost("{google-login}")]
-        public async Task<IActionResult> GoogleLogin(GoogleLoginRequest googleLoginRequest)
-        {
-            GoogleLoginResponse response = await _mediator.Send(googleLoginRequest);
-            return Ok(response);
-        }
 
     }
 }

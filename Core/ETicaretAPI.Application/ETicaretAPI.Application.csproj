@@ -20,4 +20,8 @@
     <ProjectReference Include="..\ETicaretAPI.Domain\ETicaretAPI.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="Abstractions\Services\IUserService.cs" />
+  </ItemGroup>
+
 </Project>

@@ -1,4 +1,5 @@
-﻿using ETicaretAPI.Domain.Entities.Identity;
+﻿using ETicaretAPI.Application.Abstractions.User.CreateUser;
+using ETicaretAPI.Domain.Entities.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -12,34 +13,30 @@ namespace ETicaretAPI.Application.Features.Command.AppUser.CreateUser
 {
     public class CreateUserHandler : IRequestHandler<CreateUserRequest, CreateUserResponse>
     {
-        private readonly UserManager<Domain.Entities.Identity.AppUser> _userManager;
 
-        public CreateUserHandler(UserManager<Domain.Entities.Identity.AppUser> userManager)
+        private readonly IUserService _userService;
+
+        public CreateUserHandler(IUserService userService)
         {
-            _userManager = userManager;
+            _userService = userService;
         }
 
         public async Task<CreateUserResponse> Handle(CreateUserRequest request, CancellationToken cancellationToken)
         {
-            IdentityResult result = await _userManager.CreateAsync(new()
+            var result =await _userService.CreateUserAsync(new()
             {
-                Id = Guid.NewGuid().ToString(),
-                NameSurname = request.NameSurname,
                 Email = request.Email,
-                UserName = request.Username,
+                NameSurname = request.NameSurname,
+                Username = request.Username,
+                Password = request.Password,
+            });
 
-            }, request.Password);
-
-            CreateUserResponse response = new() { Succeeded = result.Succeeded };
-
-            if (result.Succeeded)
-                response.Message = "Kullanici başariyla oluşturulmuştur!";
-            else
+            return new()
             {
-                foreach (var error in result.Errors)
-                    response.Message += $"{error.Code} - {error.Description}";
-            }
-            return response;
+                Message = result.Message,
+                Succeeded = result.Succeeded,
+            };
+
         }
     }
 }

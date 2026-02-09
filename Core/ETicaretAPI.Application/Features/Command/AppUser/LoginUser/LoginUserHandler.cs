@@ -1,7 +1,9 @@
-﻿using ETicaretAPI.Application.Abstractions.Token;
+﻿using ETicaretAPI.Application.Abstractions.Services;
+using ETicaretAPI.Application.Abstractions.Token;
 using ETicaretAPI.Application.Dtos.Token;
 using ETicaretAPI.Application.Exceptions;
 using MediatR;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -13,36 +15,21 @@ namespace ETicaretAPI.Application.Features.Command.AppUser.LoginUser
 {
     public class LoginUserHandler : IRequestHandler<LoginUserRequest, LoginUserResponse>
     {
-        private readonly UserManager<Domain.Entities.Identity.AppUser> _userManager;
-        private readonly SignInManager<Domain.Entities.Identity.AppUser> _signInManager;
-        private readonly ITokenHandler _token;
+        IAuthService _authService;
 
-        public LoginUserHandler(UserManager<Domain.Entities.Identity.AppUser> userManager, SignInManager<Domain.Entities.Identity.AppUser> signInManager , ITokenHandler token)
+        public LoginUserHandler(IAuthService authService)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _token = token;
-
+            _authService = authService;
         }
 
         public async Task<LoginUserResponse> Handle(LoginUserRequest request, CancellationToken cancellationToken)
         {
-           var user = await _userManager.FindByNameAsync(request.UsernameOrEmail);
-            if (user == null)
-                await _userManager.FindByEmailAsync(request.UsernameOrEmail);
-            if (user == null)
-                throw new UserNotFoundException();
+           var token = await _authService.LoginAsync(request.UsernameOrEmail, request.Password);
 
-           var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
-            if (result.Succeeded)
+          return  new LoginUserResponse()
             {
-               TokenDto token = _token.CreateAccessToken();
-                return new()
-                {
-                    Token = token
-                };
-            }
-            throw new AuthenticationErrorException();
+                Token = token
+            };
         }
     }
 }
