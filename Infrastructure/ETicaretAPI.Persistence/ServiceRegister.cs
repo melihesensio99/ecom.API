@@ -1,4 +1,5 @@
-﻿using ETicaretAPI.Application.Repositories;
+﻿using ETicaretAPI.Application.Abstractions.Token;
+using ETicaretAPI.Application.Repositories;
 using ETicaretAPI.Application.Repositories.CustomerRepository;
 using ETicaretAPI.Application.Repositories.FileRepository;
 using ETicaretAPI.Application.Repositories.InvoiceFileRepository;
@@ -13,6 +14,7 @@ using ETicaretAPI.Persistence.Repositories.ProductImageFile;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -36,6 +38,8 @@ namespace ETicaretAPI.Persistence
                 options.Password.RequireLowercase = false;
                 options.Password.RequireUppercase = false;
             }).AddEntityFrameworkStores<ETicaretAPIDbContext>();
+            
+            
 
             services.AddScoped<IWriteCustomerRepository, WriteCustomerRepository>();
             services.AddScoped<IReadCustomerRepository, ReadCustomerRepository>();
@@ -49,6 +53,7 @@ namespace ETicaretAPI.Persistence
             services.AddScoped<IWriteProductImageFileRepository, WriteProductImageFileRepository>();
             services.AddScoped<IWriteFileRepository, WriteFileRepository>();
             services.AddScoped<IWriteInvoiceFileRepository, WriteInvoiceFileRepository>();
+            
             return services;
         }
     }

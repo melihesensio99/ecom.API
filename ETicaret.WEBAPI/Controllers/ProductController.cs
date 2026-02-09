@@ -14,6 +14,7 @@ using ETicaretAPI.Application.RequestParameters;
 using ETicaretAPI.Domain.Entities;
 using ETicaretAPI.Persistence.Repositories;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -46,6 +47,7 @@ namespace ETicaret.WEBAPI.Controllers
         }
 
         [HttpPost]
+  
         public async Task<IActionResult> Post(CreateProductCommandRequest createProductCommandRequest)
         {
             var response = await _mediator.Send(createProductCommandRequest);

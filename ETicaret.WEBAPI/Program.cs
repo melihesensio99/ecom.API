@@ -1,11 +1,14 @@
-using ETicaretAPI.Persistence;
-using FluentValidation.AspNetCore;
-using FluentValidation;
-using ETicaretAPI.Application.Validators.Products;
-using ETicaretAPI.Infrastructure.Filters;
-using ETicaretAPI.Infrastructure;
-using ETicaretAPI.Infrastructure.Services.LocalStorage;
 using ETicaretAPI.Application;
+using ETicaretAPI.Application.Validators.Products;
+using ETicaretAPI.Infrastructure;
+using ETicaretAPI.Infrastructure.Filters;
+using ETicaretAPI.Infrastructure.Services.LocalStorage;
+using ETicaretAPI.Persistence;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,7 +24,20 @@ builder.Services.AddValidatorsFromAssemblyContaining<CreateProductValidator>();
 builder.Services.AddCors(options => options.AddDefaultPolicy(policy => policy.WithOrigins("http://localhost:4200", "https://localhost:4200").AllowAnyMethod().AllowAnyHeader()));
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer("admin" , options =>
+    options.TokenValidationParameters = new()
+    {
+        ValidateAudience = true,
+        ValidateIssuer = true,
+        ValidateLifetime = true, 
+        ValidateIssuerSigningKey = true,
 
+        ValidAudience = builder.Configuration["Token:Audience"],
+        ValidIssuer = builder.Configuration["Token:Issuer"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Token:SecurityKey"])),
+        LifetimeValidator = (notBefore, expires, securityToken, validationParameters) => expires != null ? expires > DateTime.UtcNow : false,
+    });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -33,10 +49,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 app.UseCors();
 app.UseStaticFiles();
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
