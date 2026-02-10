@@ -29,7 +29,7 @@ namespace ETicaretAPI.Persistence.Services
                Email = model.Email,
                 UserName = model.Username,
                 NameSurname = model.NameSurname,
-
+                 
             } , model.Password);
 
             var result = new CreateUserResponseDto()

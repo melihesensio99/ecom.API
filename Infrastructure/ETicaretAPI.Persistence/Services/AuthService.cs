@@ -44,7 +44,7 @@ namespace ETicaretAPI.Persistence.Services
                 if (result.Succeeded)
                 {
                     TokenDto token = _tokenHandler.CreateAccessToken(15 , user);
-                await _userService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, 15);
+                await _userService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration.Value, 15);
                     return token;
                 }
 

@@ -151,10 +151,9 @@ namespace ETicaretAPI.Persistence.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("RefreshToken")
-                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("RefreshTokenEndTime")
+                    b.Property<DateTime?>("RefreshTokenEndTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("SecurityStamp")
