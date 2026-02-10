@@ -49,7 +49,22 @@ namespace ETicaretAPI.Persistence.Services
            
             return result;
 
+        }
+        public async Task UpdateRefreshToken(string refreshToken, AppUser user, DateTime accesTokenDate, int addDate)
+        {
+            var data = await _userManager.FindByIdAsync(user.Id);
+            if (data != null)
+            {
+                data.RefreshToken = refreshToken;
+                data.RefreshTokenEndTime = accesTokenDate.AddSeconds(addDate);
+                await _userManager.UpdateAsync(user);
+            }
+            else
+            {
+                throw new UserNotFoundException();
+            }
 
+                
         }
     }
 }
