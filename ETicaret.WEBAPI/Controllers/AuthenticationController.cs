@@ -22,6 +22,12 @@ namespace ETicaret.WEBAPI.Controllers
             var response = await _mediator.Send(loginUserRequest);
             return Ok(response);
         }
+        [HttpGet("[action]")]
+        public async Task<IActionResult> RefreshTokenLogin(LoginUserRequest loginUserRequest)
+        {
+            var response = await _mediator.Send(loginUserRequest);
+            return Ok(response);
+        }
 
         [HttpPost("google-login")]
         public async Task<IActionResult> GoogleLogin(GoogleLoginRequest googleLoginRequest)
