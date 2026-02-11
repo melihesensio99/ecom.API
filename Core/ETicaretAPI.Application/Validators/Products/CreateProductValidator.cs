@@ -1,4 +1,4 @@
-﻿using ETicaretAPI.Application.Dtos.Products;
+﻿using ETicaretAPI.Application.Features.Command.Product.CreateProduct;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ETicaretAPI.Application.Validators.Products
 {
-    public class CreateProductValidator : AbstractValidator<CreateProductDto>
+    public class CreateProductValidator : AbstractValidator<CreateProductCommandRequest>
     {
         public CreateProductValidator()
         {

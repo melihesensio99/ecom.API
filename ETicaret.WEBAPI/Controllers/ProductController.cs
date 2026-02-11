@@ -34,6 +34,7 @@ namespace ETicaret.WEBAPI.Controllers
             _storage = storage;
         }
         [HttpGet]
+        [Authorize(AuthenticationSchemes = "admin")]
         public async Task<IActionResult> Get([FromQuery] GetAllProductQueryRequest getAllProdutQueryRequest)
         {
             var response = await _mediator.Send(getAllProdutQueryRequest);

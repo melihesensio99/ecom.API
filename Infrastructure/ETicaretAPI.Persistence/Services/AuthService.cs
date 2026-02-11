@@ -6,6 +6,7 @@ using ETicaretAPI.Application.Exceptions;
 using ETicaretAPI.Domain.Entities.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -43,13 +44,29 @@ namespace ETicaretAPI.Persistence.Services
                var result = await _signInManager.CheckPasswordSignInAsync(user , password , false);
                 if (result.Succeeded)
                 {
-                    TokenDto token = _tokenHandler.CreateAccessToken(15 , user);
-                await _userService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration.Value, 15);
+                    TokenDto token = _tokenHandler.CreateAccessToken(10 , user);
+                await _userService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration.Value, 900);
                     return token;
                 }
 
             throw new AuthenticationErrorException();
 
+
+        }
+
+        public async Task<TokenDto> RefreshTokenLoginAsync(string refreshToken)
+        {
+           var user =  await _userManager.Users.FirstOrDefaultAsync(a => a.RefreshToken == refreshToken);
+            if(user != null && user.RefreshTokenEndTime > DateTime.UtcNow)
+            {
+               var token = _tokenHandler.CreateAccessToken(30, user);  
+                await _userService.UpdateRefreshToken(token.RefreshToken , user , token.Expiration.Value, 900);
+                return token;
+            }
+            else
+            {
+                throw new UserNotFoundException();
+            }
 
         }
     }
