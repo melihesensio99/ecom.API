@@ -1,13 +1,16 @@
 using ETicaret.WEBAPI.Configurations.ColumnWriters;
+using ETicaret.WEBAPI.Extensions;
 using ETicaretAPI.Application;
 using ETicaretAPI.Application.Validators.Products;
 using ETicaretAPI.Infrastructure;
 using ETicaretAPI.Infrastructure.Filters;
 using ETicaretAPI.Infrastructure.Services.LocalStorage;
 using ETicaretAPI.Persistence;
+using ETicaretAPI.SignalR;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using NpgsqlTypes;
 using Serilog;
@@ -20,6 +23,7 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddSignalRServices();
 builder.Services.InfrastructureServiceRegister();
 builder.Services.ApplicationServiceRegister();
 builder.Services.StorageServiceType<LocalStorage>();
@@ -37,6 +41,7 @@ builder.Services.AddAuthentication(options =>
         options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
     })
     .AddJwtBearer(options =>
+    {
     options.TokenValidationParameters = new()
     {
         ValidateAudience = true,
@@ -49,6 +54,7 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Token:SecurityKey"])),
         LifetimeValidator = (notBefore, expires, securityToken, validationParameters) => expires != null ? expires > DateTime.UtcNow : false,
         NameClaimType = ClaimTypes.Name,
+    };
     });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -83,6 +89,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.ConfigureGlobalExceptionHandler<Program>(app.Services.GetRequiredService<ILogger<Program>>());
+
 app.UseCors();
 app.UseStaticFiles();
 app.UseHttpsRedirection();
@@ -96,7 +104,9 @@ app.Use(async (context, next) =>
         await next();
     }
 });
+//serilogun gorsellestirilmesi icin herhanbgi bir arac kur ilerde!
 
 app.MapControllers();
+app.MapHubs();
 
 app.Run();
