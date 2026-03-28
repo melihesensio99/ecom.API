@@ -1,16 +1,19 @@
-﻿using ETicaretAPI.Application.Dtos.User;
+using ETicaretAPI.Application.DTOs.User;
 using ETicaretAPI.Domain.Entities.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 
-namespace ETicaretAPI.Application.Abstractions.User.CreateUser
+namespace ETicaretAPI.Application.Abstractions.Services
 {
     public interface IUserService
     {
-        Task<CreateUserResponseDto> CreateUserAsync(CreateUserDto model);
-        Task UpdateRefreshToken(string refreshToken , AppUser user , DateTime accesTokenDate , int addDate);
+        Task<CreateUserResponse> CreateAsync(CreateUser model);
+        Task UpdateRefreshTokenAsync(string refreshToken, AppUser user, DateTime accessTokenDate, int addOnAccessTokenDate);
+        Task UpdatePasswordAsync(string userId, string resetToken, string newPassword);
+        Task<List<ListUser>> GetAllUsersAsync(int page, int size);
+        int TotalUsersCount { get; }
+        Task AssignRoleToUserAsnyc(string userId, string[] roles);
+        Task<string[]> GetRolesToUserAsync(string userIdOrName);
+        Task<bool> HasRolePermissionToEndpointAsync(string name, string code);
+        Task<IdentityResult> RemoveUserAsync(string userIdOrName);
     }
 }

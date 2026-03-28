@@ -1,5 +1,5 @@
-﻿using ETicaretAPI.Application.Abstractions.Token;
-using ETicaretAPI.Application.Dtos.Token;
+using ETicaretAPI.Application.Abstractions.Tokens;
+using ETicaretAPI.Application.DTOs;
 using ETicaretAPI.Domain.Entities.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -12,7 +12,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ETicaretAPI.Infrastructure.Services.Token
+namespace ETicaretAPI.Infrastructure.Services.Tokens
 {
     public class TokenHandler : ITokenHandler
     {
@@ -23,36 +23,43 @@ namespace ETicaretAPI.Infrastructure.Services.Token
             _configuration = configuration;
         }
 
-        public TokenDto CreateAccessToken(int second, AppUser appUser)
+        public Token CreateAccessToken(int second, AppUser user)
         {
-            TokenDto token = new TokenDto();
+            Token token = new();
 
+            //Security Key'in simetriğini alıyoruz.
             SymmetricSecurityKey securityKey = new(Encoding.UTF8.GetBytes(_configuration["Token:SecurityKey"]));
+
+            //Şifrelenmiş kimliği oluşturuyoruz.
             SigningCredentials signingCredentials = new(securityKey, SecurityAlgorithms.HmacSha256);
+
+            //Oluşturulacak token ayarlarını veriyoruz.
             token.Expiration = DateTime.UtcNow.AddSeconds(second);
             JwtSecurityToken securityToken = new(
                 audience: _configuration["Token:Audience"],
                 issuer: _configuration["Token:Issuer"],
                 expires: token.Expiration,
                 notBefore: DateTime.UtcNow,
-                claims: new List<Claim> { new(ClaimTypes.Name, appUser.UserName) },
-                signingCredentials: signingCredentials);
+                signingCredentials: signingCredentials,
+                claims: new List<Claim> { new(ClaimTypes.Name, user.UserName) }
+                );
 
+            //Token oluşturucu sınıfından bir örnek alalım.
             JwtSecurityTokenHandler tokenHandler = new();
             token.AccessToken = tokenHandler.WriteToken(securityToken);
+
+            //string refreshToken = CreateRefreshToken();
+
             token.RefreshToken = CreateRefreshToken();
-
-            return token;   
-
+            return token;
         }
 
-public string CreateRefreshToken()
-{
-    byte[] number = new byte[32];
-    using var random = RandomNumberGenerator.Create();
-    random.GetBytes(number);
-    return Convert.ToBase64String(number);
-
-}
+        public string CreateRefreshToken()
+        {
+            byte[] number = new byte[32];
+            using RandomNumberGenerator random = RandomNumberGenerator.Create();
+            random.GetBytes(number);
+            return Convert.ToBase64String(number);
+        }
     }
 }

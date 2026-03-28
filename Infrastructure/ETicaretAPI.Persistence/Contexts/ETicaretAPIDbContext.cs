@@ -1,4 +1,4 @@
-﻿using ETicaretAPI.Domain.Common;
+using ETicaretAPI.Domain.Common;
 using ETicaretAPI.Domain.Entities;
 using ETicaretAPI.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -21,9 +21,28 @@ namespace ETicaretAPI.Persistence.Contexts
         public DbSet<Product> Products { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<Basket> Baskets { get; set; }
+        public DbSet<BasketItem> BasketItems { get; set; }
         public DbSet<Domain.Entities.File> Files { get; set; }
         public DbSet<InvoiceFile> InvoiceFiles { get; set; }
         public DbSet<ProductImagesFile> ProductImagesFiles { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            // Order is the dependent in the 1:1 relationship with Basket
+            modelBuilder.Entity<Order>()
+                .HasOne(o => o.Basket)
+                .WithOne(b => b.Order)
+                .HasForeignKey<Order>(o => o.BasketId);
+
+            // CompletedOrder is the dependent in the 1:1 relationship with Order
+            modelBuilder.Entity<CompletedOrder>()
+                .HasOne(co => co.Order)
+                .WithOne(o => o.CompletedOrder)
+                .HasForeignKey<CompletedOrder>(co => co.OrderId);
+        }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {

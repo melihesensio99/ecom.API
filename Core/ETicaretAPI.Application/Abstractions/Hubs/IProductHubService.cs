@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,5 +9,6 @@ namespace ETicaretAPI.Application.Abstractions.Hubs
     public interface IProductHubService
     {
         Task ProductAddedMessageAsync(string message);
+        Task ProductLowStockMessageAsync(string message);
     }
 }

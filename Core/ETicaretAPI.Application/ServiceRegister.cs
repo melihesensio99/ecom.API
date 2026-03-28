@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +12,8 @@ namespace ETicaretAPI.Application
         public static void ApplicationServiceRegister(this IServiceCollection services)
         {
             services.AddMediatR(cfg =>
-        cfg.RegisterServicesFromAssembly(typeof(ServiceRegister).Assembly));
+                cfg.RegisterServicesFromAssembly(typeof(ServiceRegister).Assembly));
+            services.AddHttpClient();
         }
     }
 }

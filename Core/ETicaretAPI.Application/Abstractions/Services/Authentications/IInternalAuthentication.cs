@@ -1,4 +1,4 @@
-﻿using ETicaretAPI.Application.Dtos.Token;
+using Token = ETicaretAPI.Application.DTOs.Token;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +9,7 @@ namespace ETicaretAPI.Application.Abstractions.Services.Authentications
 {
     public interface IInternalAuthentication
     {
-        Task<TokenDto> LoginAsync(string UsernameOrEmai , string password);
+        Task<Token> LoginAsync(string usernameOrEmail, string password, int accessTokenLifeTime);
+        Task<Token> RefreshTokenLoginAsync(string refreshToken);
     }
 }

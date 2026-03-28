@@ -1,4 +1,4 @@
-﻿
+
 using ETicaretAPI.Domain.Common;
 using System;
 using System.Collections.Generic;

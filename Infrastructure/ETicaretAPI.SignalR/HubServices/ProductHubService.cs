@@ -1,4 +1,4 @@
-﻿using ETicaretAPI.Application.Abstractions.Hubs;
+using ETicaretAPI.Application.Abstractions.Hubs;
 using ETicaretAPI.SignalR.Hubs;
 using Microsoft.AspNetCore.SignalR;
 using System;
@@ -20,7 +20,12 @@ namespace ETicaretAPI.SignalR.HubServices
 
         public async Task ProductAddedMessageAsync(string message)
         {
-            await _hubContext.Clients.All.SendAsync(ReceiveNames.ProductReceiveNames, message);
+            await _hubContext.Clients.Group("Admins").SendAsync(ReceiveFunctionNames.ProductAddedMessage, message);
+        }
+
+        public async Task ProductLowStockMessageAsync(string message)
+        {
+            await _hubContext.Clients.Group("Admins").SendAsync(ReceiveFunctionNames.ProductLowStockMessage, message);
         }
     }
 }

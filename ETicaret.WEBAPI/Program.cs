@@ -1,10 +1,11 @@
 using ETicaret.WEBAPI.Configurations.ColumnWriters;
+using ETicaretAPI.API.Filters;
 using ETicaret.WEBAPI.Extensions;
 using ETicaretAPI.Application;
 using ETicaretAPI.Application.Validators.Products;
 using ETicaretAPI.Infrastructure;
 using ETicaretAPI.Infrastructure.Filters;
-using ETicaretAPI.Infrastructure.Services.LocalStorage;
+using ETicaretAPI.Infrastructure.Services.Storage.AWS;
 using ETicaretAPI.Persistence;
 using ETicaretAPI.SignalR;
 using FluentValidation;
@@ -24,11 +25,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddSignalRServices();
-builder.Services.InfrastructureServiceRegister();
+builder.Services.AddInfrastructureServices();
 builder.Services.ApplicationServiceRegister();
-builder.Services.StorageServiceType<LocalStorage>();
+builder.Services.AddStorage<AWSStorage>();
 builder.Services.AddPersistenceServices(builder.Configuration);
-builder.Services.AddControllers(opt => opt.Filters.Add<ValidationFilter>()).ConfigureApiBehaviorOptions(opt => opt.SuppressModelStateInvalidFilter = true);
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<ValidationFilter>();
+    options.Filters.Add<RolePermissionFilter>();
+}).ConfigureApiBehaviorOptions(options => options.SuppressModelStateInvalidFilter = true);
 builder.Services.AddFluentValidationAutoValidation()
     .AddFluentValidationClientsideAdapters();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateProductValidator>();
@@ -93,7 +98,14 @@ app.ConfigureGlobalExceptionHandler<Program>(app.Services.GetRequiredService<ILo
 
 app.UseCors();
 app.UseStaticFiles();
+app.Use(async (context, next) =>
+{
+    // Allow Google OAuth popup to communicate via postMessage
+    context.Response.Headers["Cross-Origin-Opener-Policy"] = "unsafe-none";
+    await next();
+});
 app.UseHttpsRedirection();
+
 app.UseAuthentication();
 app.UseAuthorization();
 app.Use(async (context, next) =>

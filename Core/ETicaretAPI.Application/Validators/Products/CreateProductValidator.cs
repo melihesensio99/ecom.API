@@ -1,4 +1,4 @@
-﻿using ETicaretAPI.Application.Features.Command.Product.CreateProduct;
+using ETicaretAPI.Application.Features.Commands.Product.CreateProduct;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
