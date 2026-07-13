@@ -8,12 +8,27 @@
 Backend API for the e-commerce platform.
 This solution contains authentication, product management, basket and order workflows, role-based authorization, file upload support, SignalR integration and infrastructure services.
 
+> Backend application for the e-commerce platform. This repo owns the API surface, persistence, security, file storage and real-time infrastructure.
+
 ## Overview
 
 This repository contains the backend of the e-commerce platform.
 It is designed to work together with the frontend repository below:
 
 - [ecomClient](https://github.com/melihesensio99/ecomClient)
+
+## Architecture
+
+```mermaid
+flowchart LR
+    UI["ecomClient"] --> API["ETicaret.WEBAPI"]
+    API --> App["Application Layer"]
+    App --> Domain["Domain Layer"]
+    API --> Infra["Infrastructure Layer"]
+    Infra --> Persist["Persistence / PostgreSQL"]
+    Infra --> SignalR["SignalR Hub"]
+    Infra --> Storage["AWS Storage"]
+```
 
 ## Features
 
