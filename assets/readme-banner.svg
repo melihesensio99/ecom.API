@@ -1,0 +1,21 @@
+<svg width="1200" height="300" viewBox="0 0 1200 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="300" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#101522"/>
+      <stop offset="1" stop-color="#1A2742"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="120" y1="52" x2="1080" y2="252" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#4E54C8"/>
+      <stop offset="1" stop-color="#8F94FB"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="300" rx="28" fill="url(#bg)"/>
+  <circle cx="1035" cy="76" r="118" fill="#22345A" opacity="0.7"/>
+  <circle cx="1090" cy="220" r="72" fill="#2B4170" opacity="0.6"/>
+  <circle cx="150" cy="222" r="96" fill="#2B4170" opacity="0.6"/>
+  <path d="M80 58H104C116.15 58 126 67.8497 126 80V104C126 116.15 116.15 126 104 126H80C67.8497 126 58 116.15 58 104V80C58 67.8497 67.8497 58 80 58Z" fill="url(#accent)"/>
+  <path d="M78 82H106V88H78V82ZM78 95H102V101H78V95Z" fill="white"/>
+  <text x="170" y="120" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="64" font-weight="700">ecom.API</text>
+  <text x="170" y="168" fill="#B8C4D9" font-family="Segoe UI, Arial, sans-serif" font-size="26" font-weight="400">ASP.NET Core backend for the e-commerce platform</text>
+  <text x="170" y="212" fill="#7F8AA3" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="400">Authentication, products, baskets, orders, storage, and SignalR</text>
+</svg>

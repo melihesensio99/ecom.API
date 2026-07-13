@@ -1,5 +1,7 @@
 # ecom.API
 
+![ecom.API banner](assets/readme-banner.svg)
+
 [![ASP.NET Core](https://img.shields.io/badge/ASP.NET%20Core-0F0F11?style=for-the-badge&logo=dotnet&logoColor=512BD4)](https://dotnet.microsoft.com/)
 [![Entity Framework Core](https://img.shields.io/badge/Entity%20Framework%20Core-0F0F11?style=for-the-badge&logo=dotnet&logoColor=512BD4)](https://learn.microsoft.com/ef/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-0F0F11?style=for-the-badge&logo=postgresql&logoColor=316192)](https://www.postgresql.org/)
